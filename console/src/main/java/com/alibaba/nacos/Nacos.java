@@ -20,9 +20,31 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+/**
+ *
+ * proto编译
+ *
+ * 当我们导入成功以后，会出现程序包com.alibaba.nacos.consistency.entity不存在的错误提示，这是因为Nacos底层的数据通信会基于protobuf对数据做序列化和反序列化，需要先将proto文件编译为对应的Java代码。
+ *
+ * 安装protocol buffer 插件 重新用manven 编译解决
+ * Nacos缺少Istio依赖问题解决
+ *
+ * 我们只需要在文件根目录下执行以下命令即可：
+ *
+ * mvn clean package -Dmaven.test.skip=true -Dcheckstyle.skip=true
+ *
+ *
+ * 启动时记得加参数
+ * -Dnacos.standalone=true
+ *
+ */
+
+
+
 
 /**
  * Nacos starter.
+ *
  *
  * @author nacos
  */
