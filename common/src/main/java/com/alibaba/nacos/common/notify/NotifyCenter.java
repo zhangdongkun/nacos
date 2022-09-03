@@ -176,6 +176,11 @@ public class NotifyCenter {
         if (consumer instanceof SmartSubscriber) {
             for (Class<? extends Event> subscribeType : ((SmartSubscriber) consumer).subscribeTypes()) {
                 // For case, producer: defaultSharePublisher -> consumer: smartSubscriber.
+                /**
+                 * a对象所对应类信息是b对象所对应的类信息的父类或者是父接口，简单理解即a是b的父类或接口
+                 * a对象所对应类信息与b对象所对应的类信息相同，简单理解即a和b为同一个类或同一个接口
+                 *
+                 */
                 if (ClassUtils.isAssignableFrom(SlowEvent.class, subscribeType)) {
                     INSTANCE.sharePublisher.addSubscriber(consumer, subscribeType);
                 } else {
@@ -294,7 +299,7 @@ public class NotifyCenter {
         if (ClassUtils.isAssignableFrom(SlowEvent.class, eventType)) {
             return INSTANCE.sharePublisher.publish(event);
         }
-        
+        //com.alibaba.nacos.naming.core.v2.event.client.ClientOperationEvent.ClientRegisterServiceEvent
         final String topic = ClassUtils.getCanonicalName(eventType);
         
         EventPublisher publisher = INSTANCE.publisherMap.get(topic);

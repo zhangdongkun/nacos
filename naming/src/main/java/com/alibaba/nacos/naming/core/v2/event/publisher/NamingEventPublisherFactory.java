@@ -48,6 +48,7 @@ public class NamingEventPublisherFactory implements EventPublisherFactory {
     
     @Override
     public EventPublisher apply(final Class<? extends Event> eventType, final Integer maxQueueSize) {
+        //java.lang.Class类的getEnclosingClass()方法用于获取该类的封闭类。如果该类是本地类或在该类中声明的匿名类
         // Like ClientEvent$ClientChangeEvent cache by ClientEvent
         Class<? extends Event> cachedEventType =
                 eventType.isMemberClass() ? (Class<? extends Event>) eventType.getEnclosingClass() : eventType;

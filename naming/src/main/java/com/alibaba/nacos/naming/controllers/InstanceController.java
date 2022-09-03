@@ -104,6 +104,11 @@ public class InstanceController {
      * @param request http request
      * @return 'ok' if success
      * @throws Exception any error during register
+     *
+     * com.alibaba.nacos.naming.core.InstanceOperatorClientImpl#registerInstance
+     *
+     *
+     *
      */
     @CanDistro
     @PostMapping
@@ -117,7 +122,7 @@ public class InstanceController {
         
         final Instance instance = HttpRequestInstanceBuilder.newBuilder()
                 .setDefaultInstanceEphemeral(switchDomain.isDefaultInstanceEphemeral()).setRequest(request).build();
-        
+        //InstanceOperatorClientImpl
         getInstanceOperator().registerInstance(namespaceId, serviceName, instance);
         NotifyCenter.publishEvent(new RegisterInstanceTraceEvent(System.currentTimeMillis(), "",
                 false, namespaceId, NamingUtils.getGroupName(serviceName), NamingUtils.getServiceName(serviceName),
@@ -327,6 +332,7 @@ public class InstanceController {
 
         Subscriber subscriber = new Subscriber(clientIP + ":" + udpPort, agent, app, clientIP, namespaceId, serviceName,
                 udpPort, clusters);
+        //InstanceOperatorClientImpl
         return getInstanceOperator().listInstance(namespaceId, serviceName, subscriber, clusters, healthyOnly);
     }
     

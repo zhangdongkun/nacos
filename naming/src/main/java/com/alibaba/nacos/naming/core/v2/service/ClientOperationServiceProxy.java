@@ -49,6 +49,7 @@ public class ClientOperationServiceProxy implements ClientOperationService {
     
     @Override
     public void registerInstance(Service service, Instance instance, String clientId) throws NacosException {
+        //ephemeralClientOperationService ephemeral 临时
         final ClientOperationService operationService = chooseClientOperationService(instance);
         operationService.registerInstance(service, instance, clientId);
     }

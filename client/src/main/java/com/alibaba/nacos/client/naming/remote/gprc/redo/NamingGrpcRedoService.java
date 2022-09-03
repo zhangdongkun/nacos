@@ -101,6 +101,7 @@ public class NamingGrpcRedoService implements ConnectionEventListener {
     public void cacheInstanceForRedo(String serviceName, String groupName, Instance instance) {
         String key = NamingUtils.getGroupedName(serviceName, groupName);
         InstanceRedoData redoData = InstanceRedoData.build(serviceName, groupName, instance);
+        //ConcurrentMap 本身就是线程安全的为什么还要加锁呢?
         synchronized (registeredInstances) {
             registeredInstances.put(key, redoData);
         }
@@ -129,6 +130,7 @@ public class NamingGrpcRedoService implements ConnectionEventListener {
      */
     public void instanceRegistered(String serviceName, String groupName) {
         String key = NamingUtils.getGroupedName(serviceName, groupName);
+        //todo
         synchronized (registeredInstances) {
             InstanceRedoData redoData = registeredInstances.get(key);
             if (null != redoData) {

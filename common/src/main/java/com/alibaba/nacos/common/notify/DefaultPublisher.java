@@ -58,7 +58,17 @@ public class DefaultPublisher extends Thread implements EventPublisher {
     
     private static final AtomicReferenceFieldUpdater<DefaultPublisher, Long> UPDATER = AtomicReferenceFieldUpdater
             .newUpdater(DefaultPublisher.class, Long.class, "lastEventSequence");
-    
+
+    /***
+     * 初始化是消费的入口
+     *
+     * run方法里执行了openEventHandler()，该方法做了两件事
+     * 1.检查是否有监听者–每一秒检查一次，检查60次一共60秒，六十秒后就放行不检查了避免任务堆过多
+     * 2.从阻塞队列获取任务执
+     *
+     * @param type       {@link Event >}
+     * @param bufferSize Message staging queue size
+     */
     @Override
     public void init(Class<? extends Event> type, int bufferSize) {
         setDaemon(true);
@@ -94,7 +104,11 @@ public class DefaultPublisher extends Thread implements EventPublisher {
     public void run() {
         openEventHandler();
     }
-    
+
+    /**
+     * 1.检查是否有监听者–每一秒检查一次，检查60次一共60秒，六十秒后就放行不检查了避免任务堆过多
+     * 2.从阻塞队列获取任务执
+     */
     void openEventHandler() {
         try {
             
@@ -115,6 +129,8 @@ public class DefaultPublisher extends Thread implements EventPublisher {
                     break;
                 }
                 final Event event = queue.take();
+                LOGGER.info("获得 event{}",event);
+                //循环获取订阅者发布任务
                 receiveEvent(event);
                 UPDATER.compareAndSet(this, lastEventSequence, Math.max(lastEventSequence, event.sequence()));
             }

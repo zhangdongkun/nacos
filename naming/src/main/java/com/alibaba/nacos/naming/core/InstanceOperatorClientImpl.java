@@ -98,11 +98,15 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
     @Override
     public void registerInstance(String namespaceId, String serviceName, Instance instance) throws NacosException {
         NamingUtils.checkInstanceIsLegal(instance);
-        
+        //判断是否为临时客户端
         boolean ephemeral = instance.isEphemeral();
+        //获取客户端ID eg---->192.168.184.1:8003#true
         String clientId = IpPortBasedClient.getClientId(instance.toInetAddr(), ephemeral);
+        //通过客户端ID创建客户端连接
         createIpPortClientIfAbsent(clientId);
+        //获取服务信息
         Service service = getService(namespaceId, serviceName, ephemeral);
+        //注册服务 ClientOperationServiceProxy
         clientOperationService.registerInstance(service, instance, clientId);
     }
     

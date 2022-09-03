@@ -175,6 +175,7 @@ public class NamingEventPublisher extends Thread implements ShardedEventPublishe
             return;
         }
         for (Subscriber subscriber : subscribers) {
+            //DistroClientDataProcessor
             notifySubscriber(subscriber, event);
         }
     }

@@ -83,7 +83,11 @@ public class DistroClientDataProcessor extends SmartSubscriber implements Distro
     public boolean isFinishInitial() {
         return isFinishInitial;
     }
-    
+
+    /**
+     *  看  NotifyCenter.registerSubscriber 这里的
+     * @return
+     */
     @Override
     public List<Class<? extends Event>> subscribeTypes() {
         List<Class<? extends Event>> result = new LinkedList<>();
