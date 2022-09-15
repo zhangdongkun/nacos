@@ -31,6 +31,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * com.alibaba.nacos.naming.consistency.ephemeral.distro.v2.DistroClientComponentRegistry#doRegister() --注册事件
  * //发现的日志参考 https://blog.csdn.net/htydowd/article/details/122084640
  *
+ * todo
+ * grpc 长连接的建立过程
+ *
  */
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {"com.alibaba.nacos.naming", "com.alibaba.nacos.core"})
